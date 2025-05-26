@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#F5F6FA">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Market Fişi Tarat"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnSelectImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fotoğraf Seç / Çek"
+        android:drawableStart="@android:drawable/ic_menu_camera"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/tvOcrResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Taranan malzemeler burada görünecek."
+        android:textColor="#666666"
+        android:background="#EEEEEE"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnConfirmOcr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Onayla ve Ekle"
+        android:backgroundTint="#388E3C"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout> 
