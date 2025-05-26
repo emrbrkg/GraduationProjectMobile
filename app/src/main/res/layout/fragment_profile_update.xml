@@ -10,49 +10,54 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fiş Dışı Malzeme Ekle"
+        android:text="Kullanıcı Bilgilerini Güncelle"
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp" />
 
-    <AutoCompleteTextView
-        android:id="@+id/actvIngredientName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Malzeme Adı"
-        android:layout_marginBottom="16dp"
-        android:inputType="text" />
-
     <EditText
-        android:id="@+id/etQuantity"
+        android:id="@+id/etProfileUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Miktar"
-        android:inputType="numberDecimal"
+        android:hint="Kullanıcı Adı"
         android:layout_marginBottom="16dp" />
 
-    <AutoCompleteTextView
-        android:id="@+id/actvUnit"
+    <EditText
+        android:id="@+id/etProfileFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Birim (g, ml, adet...)"
-        android:layout_marginBottom="16dp"
-        android:inputType="text" />
+        android:hint="Ad"
+        android:layout_marginBottom="16dp" />
 
     <EditText
-        android:id="@+id/etExpiryDate"
+        android:id="@+id/etProfileLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Son Kullanma Tarihi (yyyy-MM-dd)"
-        android:focusable="false"
+        android:hint="Soyad"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etProfileEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etProfileNewPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Yeni Şifre"
+        android:inputType="textPassword"
         android:layout_marginBottom="24dp" />
 
     <Button
-        android:id="@+id/btnAddIngredient"
+        android:id="@+id/btnSaveProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ekle"
-        android:backgroundTint="#388E3C"
+        android:text="Kaydet"
+        android:backgroundTint="#1976D2"
         android:textColor="#FFFFFF" />
 
 </LinearLayout> 

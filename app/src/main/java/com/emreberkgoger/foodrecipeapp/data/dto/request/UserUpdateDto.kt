@@ -5,5 +5,5 @@ data class UserUpdateDto(
     val firstName: String? = null,
     val lastName: String? = null,
     val email: String? = null,
-    val dietTypes: List<String>? = null
+    val newPassword: String? = null
 )

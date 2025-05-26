@@ -23,7 +23,8 @@ sealed class AuthState {
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val sharedPreferences: android.content.SharedPreferences
 ) : ViewModel() {
     private val _loginState = MutableStateFlow<AuthState>(AuthState.Idle)
     val loginState: StateFlow<AuthState> = _loginState
@@ -37,9 +38,14 @@ class AuthViewModel @Inject constructor(
             try {
                 val response = userRepository.login(UserLoginDto(email, password))
                 if (response.isSuccessful && response.body() != null) {
+                    val token = response.body()?.token
+                    if (!token.isNullOrBlank()) {
+                        sharedPreferences.edit().putString("jwt_token", token).apply()
+                    }
                     _loginState.value = AuthState.Success(response.body()!!)
                 } else {
-                    _loginState.value = AuthState.Error(response.message())
+                    val errorMsg = response.errorBody()?.string() ?: response.message()
+                    _loginState.value = AuthState.Error(errorMsg)
                 }
             } catch (e: Exception) {
                 _loginState.value = AuthState.Error(e.localizedMessage ?: "Bilinmeyen hata")
@@ -61,9 +67,14 @@ class AuthViewModel @Inject constructor(
                 val request = UserRegisterDto(email, password, userName, firstName, lastName, dietTypes)
                 val response = userRepository.register(request)
                 if (response.isSuccessful && response.body() != null) {
+                    val token = (response.body() as? com.emreberkgoger.foodrecipeapp.data.dto.response.JwtResponseDto)?.token
+                    if (!token.isNullOrBlank()) {
+                        sharedPreferences.edit().putString("jwt_token", token).apply()
+                    }
                     _registerState.value = AuthState.Success(response.body()!!)
                 } else {
-                    _registerState.value = AuthState.Error(response.message())
+                    val errorMsg = response.errorBody()?.string() ?: response.message()
+                    _registerState.value = AuthState.Error(errorMsg)
                 }
             } catch (e: Exception) {
                 _registerState.value = AuthState.Error(e.localizedMessage ?: "Bilinmeyen hata")

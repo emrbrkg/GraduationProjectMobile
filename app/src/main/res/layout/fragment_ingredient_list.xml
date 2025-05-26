@@ -33,4 +33,30 @@
         android:backgroundTint="#1976D2"
         android:textColor="#FFFFFF" />
 
+    <LinearLayout
+        android:id="@+id/layoutAddOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/btnScanReceipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Market Fişi Tarat"
+            android:backgroundTint="#FBC02D"
+            android:textColor="#222222"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnAddManualIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fiş Dışı Malzeme Ekle"
+            android:backgroundTint="#388E3C"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
 </LinearLayout> 

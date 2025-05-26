@@ -1,6 +1,8 @@
 package com.emreberkgoger.foodrecipeapp.ui.auth
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +17,12 @@ import com.emreberkgoger.foodrecipeapp.R
 import com.emreberkgoger.foodrecipeapp.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private val viewModel: AuthViewModel by viewModels()
+    @Inject lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -66,6 +70,7 @@ class LoginFragment : Fragment() {
                             .commit()
                     }
                     is AuthState.Error -> {
+                        Log.e("LOGIN_ERROR", state.message)
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
                     else -> {}
