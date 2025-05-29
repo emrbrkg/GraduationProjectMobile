@@ -60,10 +60,10 @@ interface ApiService {
     @GET("api/recipes/byIngredients")
     suspend fun getRecipesByIngredients(
         @Query("ingredients") ingredients: List<String>,
-        @Query("limit") limit: Int = 10
+        @Query("limit") limit: Int = 1
     ): Response<List<RecipeDto>>
     @GET("api/recipes/byUserIngredients")
-    suspend fun getRecipesByUserIngredients(@Query("limit") limit: Int = 10): Response<List<RecipeDto>>
+    suspend fun getRecipesByUserIngredients(@Query("limit") limit: Int = 1): Response<List<RecipeDto>>
     @GET("api/recipes/missingIngredients/{recipeId}")
     suspend fun getMissingIngredients(@Path("recipeId") recipeId: Long): Response<List<IngredientDto>>
     @POST("api/recipes/saveFromApi/{apiRecipeId}")

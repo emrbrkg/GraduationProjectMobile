@@ -29,5 +29,20 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:paddingTop="4dp"/>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/btnFavorite"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="end|bottom"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="0dp"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/btn_star_big_off"
+                android:contentDescription="Favori"
+                android:scaleType="centerInside" />
+        </FrameLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView> 

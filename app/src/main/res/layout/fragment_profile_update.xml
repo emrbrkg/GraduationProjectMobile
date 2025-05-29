@@ -15,34 +15,119 @@
         android:textStyle="bold"
         android:layout_marginBottom="24dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvProfileUserName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Kullanıcı Adı"
+            android:textSize="16sp"/>
+        <ImageView
+            android:id="@+id/ivEditUserName"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:contentDescription="Düzenle"/>
+    </LinearLayout>
     <EditText
         android:id="@+id/etProfileUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Kullanıcı Adı"
-        android:layout_marginBottom="16dp" />
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+        <TextView
+            android:id="@+id/tvProfileFirstName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Ad"
+            android:textSize="16sp"/>
+        <ImageView
+            android:id="@+id/ivEditFirstName"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:contentDescription="Düzenle"/>
+    </LinearLayout>
     <EditText
         android:id="@+id/etProfileFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ad"
-        android:layout_marginBottom="16dp" />
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+        <TextView
+            android:id="@+id/tvProfileLastName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Soyad"
+            android:textSize="16sp"/>
+        <ImageView
+            android:id="@+id/ivEditLastName"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:contentDescription="Düzenle"/>
+    </LinearLayout>
     <EditText
         android:id="@+id/etProfileLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Soyad"
-        android:layout_marginBottom="16dp" />
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+        <TextView
+            android:id="@+id/tvProfileEmail"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textSize="16sp"/>
+        <ImageView
+            android:id="@+id/ivEditEmail"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:contentDescription="Düzenle"/>
+    </LinearLayout>
     <EditText
         android:id="@+id/etProfileEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:layout_marginBottom="16dp" />
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
 
     <EditText
         android:id="@+id/etProfileNewPassword"
@@ -50,7 +135,7 @@
         android:layout_height="wrap_content"
         android:hint="Yeni Şifre"
         android:inputType="textPassword"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="8dp"/>
 
     <EditText
         android:id="@+id/etProfileNewPasswordRepeat"
@@ -58,7 +143,7 @@
         android:layout_height="wrap_content"
         android:hint="Yeni Şifreyi Tekrar Girin"
         android:inputType="textPassword"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="24dp"/>
 
     <Button
         android:id="@+id/btnSaveProfile"

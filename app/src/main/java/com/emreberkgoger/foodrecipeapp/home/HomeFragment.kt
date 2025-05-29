@@ -18,6 +18,7 @@ import com.emreberkgoger.foodrecipeapp.ui.ingredient.IngredientAddFragment
 import com.emreberkgoger.foodrecipeapp.ui.ingredient.IngredientListFragment
 import com.emreberkgoger.foodrecipeapp.ui.recipe.RecipeSearchFragment
 import com.emreberkgoger.foodrecipeapp.ui.profile.ProfileUpdateFragment
+import com.emreberkgoger.foodrecipeapp.ui.recipe.FavoriteRecipesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -66,6 +67,12 @@ class HomeFragment : Fragment() {
         view.findViewById<Button>(R.id.btnUpdateProfile).setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, ProfileUpdateFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+        view.findViewById<Button>(R.id.btnFavoriteRecipes).setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, FavoriteRecipesFragment())
                 .addToBackStack(null)
                 .commit()
         }

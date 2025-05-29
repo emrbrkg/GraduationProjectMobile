@@ -36,7 +36,6 @@ class LoginFragment : Fragment() {
         val passwordEditText = view.findViewById<EditText>(R.id.passwordEditText)
         val loginButton = view.findViewById<Button>(R.id.loginButton)
         val goToRegisterText = view.findViewById<TextView>(R.id.goToRegisterText)
-        val btnContinueWithoutLogin = view.findViewById<Button>(R.id.btnContinueWithoutLogin)
 
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
@@ -48,12 +47,6 @@ class LoginFragment : Fragment() {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, RegisterFragment())
                 .addToBackStack(null)
-                .commit()
-        }
-
-        btnContinueWithoutLogin.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, HomeFragment())
                 .commit()
         }
 
@@ -71,7 +64,12 @@ class LoginFragment : Fragment() {
                     }
                     is AuthState.Error -> {
                         Log.e("LOGIN_ERROR", state.message)
-                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        val userMessage = if (state.message.contains("401") || state.message.contains("403") || state.message.contains("Unauthorized", true)) {
+                            "E-posta veya şifre hatalı."
+                        } else {
+                            state.message
+                        }
+                        Toast.makeText(requireContext(), userMessage, Toast.LENGTH_SHORT).show()
                     }
                     else -> {}
                 }

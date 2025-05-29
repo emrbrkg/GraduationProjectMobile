@@ -9,26 +9,9 @@ class RecipeRepository @Inject constructor(
 ) {
     suspend fun searchRecipes(request: RecipeSearchDto) = apiService.searchRecipes(request)
     suspend fun getRecipeById(id: Long) = apiService.getRecipeById(id)
-    suspend fun getRecipesByIngredients(ingredients: List<String>, limit: Int = 10) =
+    suspend fun getRecipesByIngredients(ingredients: List<String>, limit: Int = 1) =
         apiService.getRecipesByIngredients(ingredients, limit)
-    suspend fun getRecipesByUserIngredients(limit: Int = 10) = apiService.getRecipesByUserIngredients(limit)
+    suspend fun getRecipesByUserIngredients(limit: Int = 1) = apiService.getRecipesByUserIngredients(limit)
     suspend fun getMissingIngredients(recipeId: Long) = apiService.getMissingIngredients(recipeId)
     suspend fun saveRecipeFromApi(apiRecipeId: Long) = apiService.saveRecipeFromApi(apiRecipeId)
-
-    suspend fun searchRecipes(
-        query: String,
-        searchType: String,
-        dietTypes: List<String>,
-        onlyFavorites: Boolean,
-        limit: Int = 10
-    ) = searchRecipes(
-        RecipeSearchDto(
-            query = query,
-            dietTypes = dietTypes,
-            ingredients = if (searchType == "ingredient") listOf(query) else null,
-            useUserIngredients = null,
-            maxReadyTime = null,
-            limit = limit
-        )
-    )
 }

@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ProfileDto(
     val id: Long,
     val userName: String,
+    val firstName: String?,
+    val lastName: String?,
     val email: String,
     val createdAt: String?,
     @SerializedName("dietTypes")

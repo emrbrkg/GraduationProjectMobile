@@ -25,6 +25,16 @@
         android:padding="8dp"
         android:background="@drawable/bg_edittext_rounded"/>
 
+    <EditText
+        android:id="@+id/etMaxReadyTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Maksimum Hazırlama Süresi (dk)"
+        android:inputType="number"
+        android:padding="8dp"
+        android:background="@drawable/bg_edittext_rounded"
+        android:layout_marginTop="8dp"/>
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroupSearchType"
         android:layout_width="wrap_content"

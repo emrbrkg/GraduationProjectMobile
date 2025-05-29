@@ -6,5 +6,5 @@ data class RecipeSearchDto(
     val ingredients: List<String>?,
     val useUserIngredients: Boolean?,
     val maxReadyTime: Int?,
-    val limit: Int? = 10
+    val limit: Int? = 1
 )

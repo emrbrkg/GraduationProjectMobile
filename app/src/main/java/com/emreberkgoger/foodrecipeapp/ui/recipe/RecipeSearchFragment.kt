@@ -42,12 +42,22 @@ class RecipeSearchFragment : Fragment() {
         val btnSearch = view.findViewById<Button>(R.id.btnSearch)
         val btnNextPage = view.findViewById<Button>(R.id.btnNextPage)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRecipes)
+        val etMaxReadyTime = view.findViewById<EditText>(R.id.etMaxReadyTime)
 
-        recipeAdapter = RecipeAdapter { recipe ->
-            Log.d("RecipeSearch", "Tarif kartı tıklandı: ${recipe.title}")
-            Toast.makeText(requireContext(), "Tarif: ${recipe.title}", Toast.LENGTH_SHORT).show()
-            viewModel.onRecipeClicked(recipe)
-        }
+        recipeAdapter = RecipeAdapter(
+            onClick = { recipe ->
+                Log.d("RecipeSearch", "Tarif kartı tıklandı: ${recipe.title}")
+                Toast.makeText(requireContext(), "Tarif: ${recipe.title}", Toast.LENGTH_SHORT).show()
+                viewModel.onRecipeClicked(recipe)
+            },
+            onFavoriteClick = { recipe, shouldFavorite ->
+                if (shouldFavorite) {
+                    viewModel.addFavorite(recipe)
+                } else {
+                    viewModel.removeFavorite(recipe)
+                }
+            }
+        )
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = recipeAdapter
 
@@ -56,6 +66,7 @@ class RecipeSearchFragment : Fragment() {
         val allDietTypeDisplayNames = DietType.values().map { it.displayName }
         val displayNameToEnum = DietType.values().associateBy { it.displayName }
         val enumToDisplayName = DietType.values().associateBy({ it.name }, { it.displayName })
+        val displayNameToApiName = DietType.values().associateBy({ it.displayName }, { it.apiName })
 
         // Diyet tiplerini doldur ve kullanıcınınkileri seçili yap
         viewModel.userDietTypes.observe(viewLifecycleOwner) { userDietTypes ->
@@ -68,7 +79,7 @@ class RecipeSearchFragment : Fragment() {
         }
 
         btnSearch.setOnClickListener {
-            val query = etSearch.text.toString()
+            val searchText = etSearch.text.toString()
             val searchType = when (chipGroupSearchType.checkedChipId) {
                 R.id.chipRecipeName -> "recipe"
                 R.id.chipIngredientName -> "ingredient"
@@ -78,12 +89,13 @@ class RecipeSearchFragment : Fragment() {
                 .split(",")
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
-                .mapNotNull { displayNameToEnum[it]?.name }
+                .mapNotNull { displayNameToApiName[it] }
             val onlyOwnIngredients = cbOwnIngredients.isChecked
             val onlyFavorites = cbFavorites.isChecked
-            Log.d("RecipeSearch", "Arama: query=$query, searchType=$searchType, dietTypes=$selectedDietTypes, ownIngredients=$onlyOwnIngredients, favorites=$onlyFavorites")
+            val maxReadyTime = etMaxReadyTime.text.toString().toIntOrNull()
+            Log.d("RecipeSearch", "Arama: searchText=$searchText, searchType=$searchType, dietTypes=$selectedDietTypes, ownIngredients=$onlyOwnIngredients, favorites=$onlyFavorites, maxReadyTime=$maxReadyTime")
             Toast.makeText(requireContext(), "Arama yapılıyor...", Toast.LENGTH_SHORT).show()
-            viewModel.searchRecipes(query, searchType, selectedDietTypes, onlyOwnIngredients, onlyFavorites, resetPage = true)
+            viewModel.searchRecipes(searchType, searchText, selectedDietTypes, onlyOwnIngredients, onlyFavorites, maxReadyTime, resetPage = true)
         }
 
         btnNextPage.setOnClickListener {
@@ -109,6 +121,14 @@ class RecipeSearchFragment : Fragment() {
                     .addToBackStack(null)
                     .commit()
                 viewModel.onNavigatedToDetail()
+            }
+        }
+
+        // Hata mesajı gözlemi
+        viewModel.errorMessage.observe(viewLifecycleOwner) { msg ->
+            msg?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                viewModel.clearErrorMessage()
             }
         }
     }
