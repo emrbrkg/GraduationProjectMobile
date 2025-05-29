@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tarif Ara"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tarif veya Malzeme Adı"
+        android:inputType="text"
+        android:drawableStart="@drawable/ic_search_24"
+        android:padding="8dp"
+        android:background="@drawable/bg_edittext_rounded"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupSearchType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:singleSelection="true"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipRecipeName"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="Tarif Adı ile Ara"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipIngredientName"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="Malzeme Adı ile Ara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Diyet Tipi Filtrele"
+        android:paddingTop="8dp"/>
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoDietTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Diyet tipi seçin"
+        android:inputType="text"/>
+
+    <CheckBox
+        android:id="@+id/cbOwnIngredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sadece kendi malzemelerimi içeren tarifler"
+        android:paddingTop="8dp"/>
+    <CheckBox
+        android:id="@+id/cbFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sadece favori tariflerim"/>
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ara"
+        android:layout_marginTop="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnNextPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Daha Fazla Göster"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout> 

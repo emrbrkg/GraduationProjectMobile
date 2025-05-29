@@ -2,26 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:padding="12dp"
     android:background="#FFFFFF">
 
-    <TextView
-        android:id="@+id/tvIngredientName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Malzeme Adı"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textColor="#222222" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvIngredientAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Miktar"
-        android:textSize="14sp"
-        android:textColor="#666666"
-        android:layout_marginTop="4dp" />
+        <TextView
+            android:id="@+id/tvIngredientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Malzeme Adı"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#222222" />
+
+        <TextView
+            android:id="@+id/tvIngredientAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Miktar"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnEditIngredient"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_edit"
+        android:contentDescription="Düzenle"
+        android:padding="4dp"
+        android:layout_marginEnd="8dp" />
+
+    <ImageButton
+        android:id="@+id/btnDeleteIngredient"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="Sil"
+        android:padding="4dp" />
 
 </LinearLayout> 

@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.emreberkgoger.foodrecipeapp.R
@@ -37,24 +35,39 @@ class ProfileUpdateFragment : Fragment() {
         val etLastName = view.findViewById<EditText>(R.id.etProfileLastName)
         val etEmail = view.findViewById<EditText>(R.id.etProfileEmail)
         val etNewPassword = view.findViewById<EditText>(R.id.etProfileNewPassword)
+        val etNewPasswordRepeat = view.findViewById<EditText>(R.id.etProfileNewPasswordRepeat)
         val btnSave = view.findViewById<Button>(R.id.btnSaveProfile)
 
-        // Diyet tipi ChipGroup'u ekle (dinamik)
-        val chipGroup = ChipGroup(requireContext())
-        chipGroup.id = View.generateViewId()
-        val parent = view as ViewGroup
-        parent.addView(chipGroup, parent.childCount - 1) // Kaydet butonundan önce ekle
-        val chipGroupLayoutParams = chipGroup.layoutParams as ViewGroup.MarginLayoutParams
-        chipGroupLayoutParams.setMargins(0, 0, 0, 24)
-        chipGroup.layoutParams = chipGroupLayoutParams
-
-        DietType.values().forEach { dietType ->
-            val chip = Chip(requireContext())
-            chip.text = dietType.displayName
-            chip.isCheckable = true
-            chip.tag = dietType.name
-            chipGroup.addView(chip)
+        // Mevcut kullanıcı bilgilerini backend'den çek ve alanlara yerleştir
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val response = userRepository.getCurrentUserProfile()
+                if (response.isSuccessful && response.body() != null) {
+                    val profile = response.body()!!
+                    etUserName.setText(profile.userName)
+                    etFirstName.setText("")
+                    etLastName.setText("")
+                    etEmail.setText(profile.email)
+                }
+            } catch (e: Exception) {
+                Log.e("PROFILE_FETCH_ERROR", e.localizedMessage ?: "Bilinmeyen hata")
+            }
         }
+
+        // Kullanıcı bir alana tıkladığında eski veri silinsin (sadece ilk tıklamada)
+        fun setClearOnFirstFocus(editText: EditText) {
+            var cleared = false
+            editText.setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus && !cleared) {
+                    editText.text.clear()
+                    cleared = true
+                }
+            }
+        }
+        setClearOnFirstFocus(etUserName)
+        setClearOnFirstFocus(etFirstName)
+        setClearOnFirstFocus(etLastName)
+        setClearOnFirstFocus(etEmail)
 
         btnSave.setOnClickListener {
             val userName = etUserName.text.toString()
@@ -62,20 +75,20 @@ class ProfileUpdateFragment : Fragment() {
             val lastName = etLastName.text.toString()
             val email = etEmail.text.toString()
             val newPassword = etNewPassword.text.toString()
-            val selectedDietTypes = mutableListOf<String>()
-            for (i in 0 until chipGroup.childCount) {
-                val chip = chipGroup.getChildAt(i) as Chip
-                if (chip.isChecked) {
-                    selectedDietTypes.add(chip.tag as String)
-                }
+            val newPasswordRepeat = etNewPasswordRepeat.text.toString()
+
+            // Şifre alanı doluysa ve iki şifre aynı değilse uyarı ver
+            if (newPassword.isNotBlank() && newPassword != newPasswordRepeat) {
+                Toast.makeText(requireContext(), "Şifreler aynı olmalı!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
             val updateDto = UserUpdateDto(
                 userName = userName,
                 firstName = firstName,
                 lastName = lastName,
                 email = email,
-                newPassword = if (newPassword.isNotBlank()) newPassword else null,
-                // dietTypes = selectedDietTypes // Eğer backend bekliyorsa açabilirsin
+                newPassword = if (newPassword.isNotBlank()) newPassword else null
             )
             lifecycleScope.launch {
                 try {

@@ -7,5 +7,5 @@ data class User(
     val firstName: String,
     val lastName: String,
     val createdDate: String,
-    val chosenDietTypes: List<String> = emptyList()
+    val dietTypes: List<String> = emptyList()
 )

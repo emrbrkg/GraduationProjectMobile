@@ -1,36 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
     android:background="#F5F6FA">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tarif Önerileri"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecipes"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#FFFFFF"
-        android:padding="8dp"
-        android:elevation="2dp"
-        android:clipToPadding="false"
-        android:layout_marginBottom="16dp" />
-
-    <Button
-        android:id="@+id/btnFetchRecipes"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tarifleri Getir"
-        android:backgroundTint="#388E3C"
-        android:textColor="#FFFFFF" />
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
 
-</LinearLayout> 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tarif Önerileri"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:layout_marginBottom="32dp" />
+
+        <Button
+            android:id="@+id/btnRecipeSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tarif Arama"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:backgroundTint="#E3F2FD"
+            android:textColor="#1976D2"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="18dp" />
+
+        <Button
+            android:id="@+id/btnRecipesWithMyIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Malzemelerimle Tarifler"
+            android:drawableStart="@android:drawable/ic_menu_agenda"
+            android:backgroundTint="#E8F5E9"
+            android:textColor="#388E3C"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="18dp" />
+
+        <Button
+            android:id="@+id/btnFavoriteRecipes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Favori Tariflerim"
+            android:drawableStart="@android:drawable/btn_star"
+            android:backgroundTint="#FFF3E0"
+            android:textColor="#F57C00"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="18dp" />
+
+    </LinearLayout>
+</ScrollView> 

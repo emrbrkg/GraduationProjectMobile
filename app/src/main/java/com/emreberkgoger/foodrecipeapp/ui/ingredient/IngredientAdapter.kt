@@ -9,7 +9,9 @@ import com.emreberkgoger.foodrecipeapp.R
 import com.emreberkgoger.foodrecipeapp.data.dto.response.UserIngredientResponseDto
 
 class IngredientAdapter(
-    private var items: List<UserIngredientResponseDto>
+    private var items: List<UserIngredientResponseDto>,
+    private val onEditClick: (UserIngredientResponseDto) -> Unit,
+    private val onDeleteClick: (UserIngredientResponseDto) -> Unit
 ) : RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
 
     fun updateData(newItems: List<UserIngredientResponseDto>) {
@@ -24,7 +26,7 @@ class IngredientAdapter(
     }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], onEditClick, onDeleteClick)
     }
 
     override fun getItemCount(): Int = items.size
@@ -32,14 +34,18 @@ class IngredientAdapter(
     class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvName: TextView = itemView.findViewById(R.id.tvIngredientName)
         private val tvAmount: TextView = itemView.findViewById(R.id.tvIngredientAmount)
+        private val btnEdit: View = itemView.findViewById(R.id.btnEditIngredient)
+        private val btnDelete: View = itemView.findViewById(R.id.btnDeleteIngredient)
 
-        fun bind(item: UserIngredientResponseDto) {
+        fun bind(item: UserIngredientResponseDto, onEditClick: (UserIngredientResponseDto) -> Unit, onDeleteClick: (UserIngredientResponseDto) -> Unit) {
             tvName.text = item.ingredientName ?: "İsim yok"
             tvAmount.text = if (item.quantity != null && item.unit != null) {
                 "${item.quantity} ${item.unit}"
             } else {
                 "Miktar yok"
             }
+            btnEdit.setOnClickListener { onEditClick(item) }
+            btnDelete.setOnClickListener { onDeleteClick(item) }
         }
     }
 } 

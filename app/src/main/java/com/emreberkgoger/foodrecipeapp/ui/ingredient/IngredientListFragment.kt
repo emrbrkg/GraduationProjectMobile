@@ -35,28 +35,40 @@ class IngredientListFragment : Fragment() {
         val layoutAddOptions = view.findViewById<View>(R.id.layoutAddOptions)
         val btnScanReceipt = view.findViewById<Button>(R.id.btnScanReceipt)
         val btnAddManualIngredient = view.findViewById<Button>(R.id.btnAddManualIngredient)
-        adapter = IngredientAdapter(emptyList())
+        adapter = IngredientAdapter(emptyList(),
+            onEditClick = { ingredient ->
+                // IngredientAddFragment'ı edit modunda aç
+                val fragment = IngredientAddFragment.newInstanceForEdit(ingredient)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            },
+            onDeleteClick = { ingredient ->
+                lifecycleScope.launch {
+                    try {
+                        val response = userRepository.removeUserIngredient(ingredient.id)
+                        if (response.isSuccessful) {
+                            Toast.makeText(requireContext(), "Malzeme silindi", Toast.LENGTH_SHORT).show()
+                            refreshIngredients()
+                        } else {
+                            var errorMsg = response.errorBody()?.string() ?: response.message()
+                            errorMsg = errorMsg.replace("\n", " ").take(200)
+                            Log.e("INGREDIENT_DELETE_ERROR", errorMsg)
+                            Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+                        }
+                    } catch (e: Exception) {
+                        val errorMsg = (e.localizedMessage ?: "Bilinmeyen hata").replace("\n", " ").take(200)
+                        Log.e("INGREDIENT_DELETE_ERROR", errorMsg)
+                        Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        )
         rvIngredients.layoutManager = LinearLayoutManager(requireContext())
         rvIngredients.adapter = adapter
 
-        // Malzeme listesini backend'den çek
-        lifecycleScope.launch {
-            try {
-                val response = userRepository.getUserIngredients()
-                if (response.isSuccessful && response.body() != null) {
-                    adapter.updateData(response.body()!!)
-                } else {
-                    var errorMsg = response.errorBody()?.string() ?: response.message()
-                    errorMsg = errorMsg.replace("\n", " ").take(200)
-                    Log.e("INGREDIENT_LIST_ERROR", errorMsg)
-                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
-                }
-            } catch (e: Exception) {
-                val errorMsg = (e.localizedMessage ?: "Bilinmeyen hata").replace("\n", " ").take(200)
-                Log.e("INGREDIENT_LIST_ERROR", errorMsg)
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
-            }
-        }
+        refreshIngredients()
 
         // Yeni malzeme ekleme butonu (varsa) için tıklama işlemi burada eklenebilir
         btnAddIngredient.setOnClickListener {
@@ -77,6 +89,26 @@ class IngredientListFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
             layoutAddOptions.visibility = View.GONE
+        }
+    }
+
+    private fun refreshIngredients() {
+        lifecycleScope.launch {
+            try {
+                val response = userRepository.getUserIngredients()
+                if (response.isSuccessful && response.body() != null) {
+                    adapter.updateData(response.body()!!)
+                } else {
+                    var errorMsg = response.errorBody()?.string() ?: response.message()
+                    errorMsg = errorMsg.replace("\n", " ").take(200)
+                    Log.e("INGREDIENT_LIST_ERROR", errorMsg)
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                val errorMsg = (e.localizedMessage ?: "Bilinmeyen hata").replace("\n", " ").take(200)
+                Log.e("INGREDIENT_LIST_ERROR", errorMsg)
+                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

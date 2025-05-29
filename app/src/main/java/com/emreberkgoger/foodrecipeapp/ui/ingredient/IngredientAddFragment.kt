@@ -2,6 +2,7 @@ package com.emreberkgoger.foodrecipeapp.ui.ingredient
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.emreberkgoger.foodrecipeapp.R
 import com.emreberkgoger.foodrecipeapp.data.dto.request.UserIngredientAddDto
 import com.emreberkgoger.foodrecipeapp.data.dto.response.IngredientDto
+import com.emreberkgoger.foodrecipeapp.data.dto.response.UserIngredientResponseDto
 import com.emreberkgoger.foodrecipeapp.data.repository.ingredient.IngredientRepository
 import com.emreberkgoger.foodrecipeapp.data.repository.user.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +31,12 @@ class IngredientAddFragment : Fragment() {
 
     private var ingredientList: List<IngredientDto> = emptyList()
     private val unitList = listOf("g", "ml", "adet", "kg", "lt")
+    private var editIngredient: UserIngredientResponseDto? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        editIngredient = arguments?.getSerializable(ARG_EDIT_INGREDIENT) as? UserIngredientResponseDto
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -69,6 +77,15 @@ class IngredientAddFragment : Fragment() {
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
         }
 
+        // Eğer edit modundaysa alanları doldur
+        editIngredient?.let { ingredient ->
+            actvIngredientName.setText(ingredient.ingredientName ?: "")
+            etQuantity.setText(ingredient.quantity?.toString() ?: "")
+            actvUnit.setText(ingredient.unit ?: "")
+            etExpiryDate.setText(ingredient.expiryDate ?: "")
+            btnAddIngredient.text = "Güncelle"
+        }
+
         btnAddIngredient.setOnClickListener {
             val name = actvIngredientName.text.toString().trim()
             val quantity = etQuantity.text.toString().toFloatOrNull()
@@ -80,8 +97,9 @@ class IngredientAddFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            // Ekleme veya güncelleme için ingredientId belirle
             val selectedIngredient = ingredientList.find { it.name.equals(name, ignoreCase = true) }
-            val ingredientId = selectedIngredient?.id
+            val ingredientId = selectedIngredient?.id ?: editIngredient?.ingredientId
 
             if (ingredientId == null) {
                 Toast.makeText(requireContext(), "Malzeme bulunamadı", Toast.LENGTH_SHORT).show()
@@ -97,14 +115,45 @@ class IngredientAddFragment : Fragment() {
             )
 
             lifecycleScope.launch {
-                val response = userRepository.addUserIngredient(dto)
-                if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Malzeme eklendi", Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()
+                if (editIngredient != null) {
+                    // Güncelleme
+                    try {
+                        val response = userRepository.updateUserIngredient(editIngredient!!.id, dto)
+                        if (response.isSuccessful) {
+                            Toast.makeText(requireContext(), "Malzeme güncellendi", Toast.LENGTH_SHORT).show()
+                            parentFragmentManager.popBackStack()
+                        } else {
+                            val errorMsg = response.errorBody()?.string() ?: response.message()
+                            Log.e("INGREDIENT_UPDATE_ERROR", errorMsg)
+                            Toast.makeText(requireContext(), "Güncelleme başarısız: $errorMsg", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        val errorMsg = e.localizedMessage ?: "Bilinmeyen hata"
+                        Log.e("INGREDIENT_UPDATE_ERROR", errorMsg)
+                        Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Toast.makeText(requireContext(), "Ekleme başarısız: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    // Ekleme
+                    val response = userRepository.addUserIngredient(dto)
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "Malzeme eklendi", Toast.LENGTH_SHORT).show()
+                        parentFragmentManager.popBackStack()
+                    } else {
+                        Toast.makeText(requireContext(), "Ekleme başarısız: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+        }
+    }
+
+    companion object {
+        private const val ARG_EDIT_INGREDIENT = "edit_ingredient"
+        fun newInstanceForEdit(ingredient: UserIngredientResponseDto): IngredientAddFragment {
+            val fragment = IngredientAddFragment()
+            val bundle = Bundle()
+            bundle.putSerializable(ARG_EDIT_INGREDIENT, ingredient)
+            fragment.arguments = bundle
+            return fragment
         }
     }
 } 
