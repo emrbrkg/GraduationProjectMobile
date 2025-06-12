@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#F5F6FA">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Taranan Malzemeler"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvOcrResult"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Malzeme bulunamadı."
+        android:textColor="#666666"
+        android:background="#EEEEEE"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnConfirmOcr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Onayla ve Ekle"
+        android:backgroundTint="#388E3C"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Onayladığınızda bu malzemeler listenize eklenecek."
+        android:textColor="#888888"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout> 

@@ -27,14 +27,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hazırlık: 0 dk"
-                android:drawableLeft="@drawable/ic_delete"
+                android:drawableLeft="@drawable/ic_time"
                 android:paddingEnd="16dp"/>
             <TextView
                 android:id="@+id/tvServings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Kişi: 0"
-                android:drawableLeft="@drawable/ic_delete"/>
+                android:drawableLeft="@drawable/ic_people"/>
         </LinearLayout>
 
         <TextView
@@ -88,5 +88,14 @@
             android:layout_height="wrap_content"
             android:text="-"
             android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tvNutrition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Besin Değerleri\n-"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
     </LinearLayout>
 </ScrollView> 

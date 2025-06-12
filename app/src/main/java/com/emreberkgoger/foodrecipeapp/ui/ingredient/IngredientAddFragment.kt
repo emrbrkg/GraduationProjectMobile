@@ -55,6 +55,17 @@ class IngredientAddFragment : Fragment() {
         // Birim için autocomplete
         actvUnit.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, unitList))
 
+        // Eğer argument olarak ingredientName, quantity, unit gelirse alanları doldur
+        arguments?.getString("ingredientName")?.let { name ->
+            actvIngredientName.setText(name)
+        }
+        arguments?.getFloat("quantity", 0f)?.let { q ->
+            if (q > 0f) etQuantity.setText(q.toString())
+        }
+        arguments?.getString("unit")?.let { unit ->
+            if (unit.isNotBlank()) actvUnit.setText(unit)
+        }
+
         // Malzeme listesini çek ve autocomplete'e ver
         lifecycleScope.launch {
             val response = ingredientRepository.getAllIngredients()
@@ -97,12 +108,12 @@ class IngredientAddFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // Ekleme veya güncelleme için ingredientId belirle
+            // Ekleme veya güncelleme için ingredientId belirle (API'deki malzeme adlarıyla eşleştir)
             val selectedIngredient = ingredientList.find { it.name.equals(name, ignoreCase = true) }
             val ingredientId = selectedIngredient?.id ?: editIngredient?.ingredientId
 
             if (ingredientId == null) {
-                Toast.makeText(requireContext(), "Malzeme bulunamadı", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Malzeme API'de bulunamadı: $name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
